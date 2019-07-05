@@ -8,18 +8,15 @@ class ShlConnection {
   constructor(clientId, clientSecret) {
     this.id = clientId;
     this.secret = clientSecret;
-  }
-
-  isConnected() {
-    return
+    this.connect();
   }
 
   async connect() {
     const url = baseUrl + auth;
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: qs.encode({
         client_id: this.id,
@@ -28,18 +25,18 @@ class ShlConnection {
       }),
     }).then(res => res.json());
 
-    this.accessToken = res.access_token
+    this.accessToken = response.access_token;
     this.expires = new Date();
-    this.expires = this.expires.setSeconds(this.expires.getSeconds() + res.expires_in);
+    this.expires = this.expires.setSeconds(this.expires.getSeconds() + response.expires_in);
   }
 
   get(queryString) {
     return fetch(baseUrl + queryString, {
       headers: {
-        'Authorization': `Bearer ${this.accessToken}`
-      }
+        authorization: `Bearer ${this.accessToken}`,
+      },
     }).then(res => res.json());
   }
 }
 
-module.exports = { ShlConnection };
+module.exports.Connection = ShlConnection;

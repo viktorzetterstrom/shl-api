@@ -4,7 +4,7 @@
   "description": "Wrapper around the SHL open API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Viktor Zetterström",
   "license": "ISC",
@@ -15,6 +15,7 @@
   "devDependencies": {
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.18.0"
+    "eslint-plugin-import": "^2.18.0",
+    "jest": "^24.8.0"
   }
 }
