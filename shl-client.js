@@ -37,4 +37,4 @@ class ShlClient {
   }
 }
 
-module.exports.Client = ShlClient;
+module.exports.ShlClient = ShlClient;
