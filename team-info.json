@@ -1,0 +1,66 @@
+{
+  "FHC": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/fhc1-fhc-f7c59/special/30.png",
+    "name": "Frölunda"
+  },
+  "DIF": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/dif1-dif-896f9/special/30.png",
+    "name": "Djurgården"
+  },
+  "BIF": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/bif1-bif-713a5/special/30.png",
+    "name": "Brynäs"
+  },
+  "FBK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/fbk1-fbk-88173/special/30.png",
+    "name": "Färjestad"
+  },
+  "HV71": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/hv711-hv71-32ce9/special/30.png",
+    "name": "HV71"
+  },
+  "LHC": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/lhc1-lhc-e49a6/special/30.png",
+    "name": "Linköping"
+  },
+  "LHF": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/lhf1-lhf-cc96a/special/30.png",
+    "name": "Luleå"
+  },
+  "MIF": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/mif1-mif-d39e4/special/30.png",
+    "name": "Malmö"
+  },
+  "MIK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/mik1-mik-82c5d/special/30.png",
+    "name": "Mora"
+  },
+  "OHK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/ohk1-ohk-0ab2b/special/30.png",
+    "name": "Örebro"
+  },
+  "RBK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/rbk1-rbk-539f1/special/30.png",
+    "name": "Rögle"
+  },
+  "SAIK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/saik1-saik-ba23a/special/30.png",
+    "name": "Skellefteå"
+  },
+  "TIK": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/tik1-tik-9d6bb/special/30.png",
+    "name": "Timrå"
+  },
+  "VLH": {
+    "logo": "https://www.shl.se/team_graphics/nef_shl/vlh1-vlh-8a4d0/special/30.png",
+    "name": "Växjö"
+  },
+  "LIF": {
+    "logo": "/team_graphics/nef_shl/lif1-lif-57923/logo_square/30.png",
+    "name": "Leksand"
+  },
+  "IKO": {
+    "logo": "/team_graphics/nef_shl/iko1-iko-891ab/logo_square/30.png",
+    "name": "Oskarshamn"
+  }
+}
