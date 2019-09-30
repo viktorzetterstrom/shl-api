@@ -56,11 +56,11 @@
     "name": "Växjö"
   },
   "LIF": {
-    "logo": "/team_graphics/nef_shl/lif1-lif-57923/logo_square/30.png",
+    "logo": "https://www.shl.se//team_graphics/nef_shl/lif1-lif-57923/logo_square/30.png",
     "name": "Leksand"
   },
   "IKO": {
-    "logo": "/team_graphics/nef_shl/iko1-iko-891ab/logo_square/30.png",
+    "logo": "https://www.shl.se//team_graphics/nef_shl/iko1-iko-891ab/logo_square/30.png",
     "name": "Oskarshamn"
   }
 }
