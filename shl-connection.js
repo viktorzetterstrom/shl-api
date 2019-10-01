@@ -30,7 +30,8 @@ class ShlConnection {
     this.expires = this.expires.setSeconds(this.expires.getSeconds() + response.expires_in);
   }
 
-  get(queryString) {
+  async get(queryString) {
+    if (new Date() > this.expires) await this.connect();
     return fetch(baseUrl + queryString, {
       headers: {
         authorization: `Bearer ${this.accessToken}`,
