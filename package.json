@@ -1,7 +1,7 @@
 {
-  "name": "shl-service",
+  "name": "shl-api",
   "version": "1.0.0",
-  "description": "Wrapper around the SHL open API",
+  "description": "API serving information from the SHL open API",
   "main": "index.js",
   "scripts": {
     "test": "jest",

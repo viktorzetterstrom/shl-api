@@ -8,7 +8,7 @@ const teamInfo = require('./team-info.json');
 const redisClient = redis.createClient(6379);
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 const cacheLifespan = process.env.CACHE_LIFESPAN;
 
 const app = express();
