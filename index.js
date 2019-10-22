@@ -40,6 +40,12 @@ app.get('/standings', (_, res) => {
   });
 });
 
+
+app.use((_, res) => {
+  res.status(404).send("Sorry can't find that!");
+  res.send();
+});
+
 app.listen(port, () => {
   console.log(`Running on port ${port}`);
 });
