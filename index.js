@@ -14,6 +14,8 @@ const cacheLifespan = process.env.CACHE_LIFESPAN;
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
 
+app.get('/api/test', (_, res) => res.send('Hello, World!'));
+
 app.get('/api/standings', (_, res) => {
   const standingsRedisKey = 'shl:standings';
 
