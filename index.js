@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const https = require('https');
+const cors = require('cors');
 const fs = require('fs');
 const redis = require('redis');
 const { ShlConnection } = require('./shl-connection');
@@ -17,6 +18,18 @@ const options = {
   key: fs.readFileSync('./sslcert/privkey.pem'),
 };
 
+const whitelist = ['https://shl.zetterstrom.dev'];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
 
@@ -24,7 +37,7 @@ app.use(require('helmet')());
 
 app.get('/test', (_, res) => res.send('Hello, World!'));
 
-app.get('/standings', (_, res) => {
+app.get('/standings', cors(corsOptions), (_, res) => {
   const standingsRedisKey = 'shl:standings';
 
   return redisClient.get(standingsRedisKey, (err, standings) => {
