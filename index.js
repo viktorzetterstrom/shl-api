@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const fs = require('fs');
 const redis = require('redis');
 const { ShlConnection } = require('./shl-connection');
 const { ShlClient } = require('./shl-client');
@@ -10,6 +11,10 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const port = process.env.PORT || 4000;
 const cacheLifespan = process.env.CACHE_LIFESPAN;
+const options = {
+  cert: fs.readFileSync('./sslcert/fullchain.pem'),
+  key: fs.readFileSync('./sslcert/privkey.pem'),
+};
 
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
