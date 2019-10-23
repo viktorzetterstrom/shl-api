@@ -29,7 +29,10 @@ app.get('/standings', (_, res) => {
 
   return redisClient.get(standingsRedisKey, (err, standings) => {
     if (err) return res.json({ error: err });
-    if (standings) return res.json({ soure: 'cache', data: JSON.parse(standings) });
+    if (standings) {
+      console.log('Delivered standings from cache');
+      return res.json({ soure: 'cache', data: JSON.parse(standings) });
+    }
     return shl.season(2019).statistics.teams.standings()
       .then((apiResponse) => {
         const apiResponseWithTeamInfo = apiResponse.map(team => ({
@@ -43,6 +46,7 @@ app.get('/standings', (_, res) => {
           cacheLifespan,
           JSON.stringify(apiResponseWithTeamInfo),
         );
+        console.log('Delivered standings from api');
         return res.json({ source: 'api', data: apiResponseWithTeamInfo });
       });
   });
