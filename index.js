@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const https = require('https');
 const fs = require('fs');
 const redis = require('redis');
 const { ShlConnection } = require('./shl-connection');
@@ -9,7 +10,7 @@ const teamInfo = require('./team-info.json');
 const redisClient = redis.createClient(6379);
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
 const cacheLifespan = process.env.CACHE_LIFESPAN;
 const options = {
   cert: fs.readFileSync('./sslcert/fullchain.pem'),
@@ -18,6 +19,8 @@ const options = {
 
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
+
+app.use(require('helmet')());
 
 app.get('/test', (_, res) => res.send('Hello, World!'));
 
@@ -51,6 +54,5 @@ app.use((_, res) => {
   res.send();
 });
 
-app.listen(port, () => {
-  console.log(`Running on port ${port}`);
-});
+app.listen(port);
+https.createServer(options, app).listen(4000);
