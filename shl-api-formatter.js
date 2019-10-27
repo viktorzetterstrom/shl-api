@@ -7,6 +7,10 @@ const standings = apiResponse => apiResponse.map(team => ({
 }));
 
 const games = apiResponse => apiResponse
+  .map(game => ({
+    ...game,
+    start_date_time: new Date(game.start_date_time),
+  }))
   .filter((game) => {
     const oneWeekAway = new Date();
     oneWeekAway.setDate(oneWeekAway.getDate() + 7);
