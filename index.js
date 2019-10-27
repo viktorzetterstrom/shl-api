@@ -70,8 +70,10 @@ app.get('/games', cors(corsOptions), (_, res) => {
       .then((apiResponse) => {
         const apiResponseWithTeamInfo = apiResponse.map(game => ({
           ...game,
-          homeTeamLogo: teamInfo[game.home_team_code].logo,
-          awayTeamCode: teamInfo[game.away_team_code].logo,
+          home_team_logo: teamInfo[game.home_team_code].logo,
+          away_team_logo: teamInfo[game.away_team_code].logo,
+          home_team_name: teamInfo[game.home_team_code].name,
+          away_team_name: teamInfo[game.away_team_code].name,
         }));
 
         redisClient.setex(
