@@ -12,20 +12,17 @@ const redisClient = redis.createClient(6379);
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const port = process.env.PORT;
-const cacheLifespan = process.env.CACHE_LIFESPAN;
-const options = {
-  cert: fs.readFileSync('./sslcert/fullchain.pem'),
-  key: fs.readFileSync('./sslcert/privkey.pem'),
-};
+const standingsCacheLifespan = process.env.STANDINGS_CACHE_LIFESPAN;
+const gamesCacheLifespan = process.env.GAMES_CACHE_LIFESPAN;
 
 const whitelist = ['https://shl.zetterstrom.dev'];
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
+  origin: (origin, cb) => {
+    if (whitelist.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      cb(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      cb(new Error('Not allowed by CORS'));
     }
   },
 };
@@ -35,15 +32,12 @@ const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
 
 app.use(require('helmet')());
 
-app.get('/test', (_, res) => res.send('Hello, World!'));
-
 app.get('/standings', cors(corsOptions), (_, res) => {
   const standingsRedisKey = 'shl:standings';
 
   return redisClient.get(standingsRedisKey, (err, standings) => {
     if (err) return res.json({ error: err });
     if (standings) {
-      console.log('Delivered standings from cache');
       return res.json({ soure: 'cache', data: JSON.parse(standings) });
     }
     return shl.season(2019).statistics.teams.standings()
@@ -56,14 +50,45 @@ app.get('/standings', cors(corsOptions), (_, res) => {
 
         redisClient.setex(
           standingsRedisKey,
-          cacheLifespan,
+          standingsCacheLifespan,
           JSON.stringify(apiResponseWithTeamInfo),
         );
-        console.log('Delivered standings from api');
+        return res.json({ source: 'api', data: apiResponseWithTeamInfo });
+      });
+  });
+});
+
+app.get('/games', cors(corsOptions), (_, res) => {
+  const standingsRedisKey = 'shl:games';
+
+  return redisClient.get(standingsRedisKey, (err, standings) => {
+    if (err) return res.json({ error: err });
+    if (standings) {
+      return res.json({ soure: 'cache', data: JSON.parse(standings) });
+    }
+    return shl.season(2019).games()
+      .then((apiResponse) => {
+        const apiResponseWithTeamInfo = apiResponse.map(game => ({
+          ...game,
+          homeTeamLogo: teamInfo[game.home_team_code].logo,
+          awayTeamCode: teamInfo[game.away_team_code].logo,
+        }));
+
+        redisClient.setex(
+          standingsRedisKey,
+          gamesCacheLifespan,
+          JSON.stringify(apiResponseWithTeamInfo),
+        );
         return res.json({ source: 'api', data: apiResponseWithTeamInfo });
       });
   });
 });
 
 app.listen(port);
-https.createServer(options, app).listen(8443);
+if (process.env.NODE_ENV !== 'development') {
+  const options = {
+    cert: fs.readFileSync('./sslcert/fullchain.pem'),
+    key: fs.readFileSync('./sslcert/privkey.pem'),
+  };
+  https.createServer(options, app).listen(8443);
+}
