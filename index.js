@@ -12,8 +12,7 @@ const redisClient = redis.createClient(6379);
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const port = process.env.PORT;
-const standingsCacheLifespan = process.env.STANDINGS_CACHE_LIFESPAN;
-const gamesCacheLifespan = process.env.GAMES_CACHE_LIFESPAN;
+const cacheLifespan = process.env.CACHE_LIFESPAN;
 
 const whitelist = ['https://shl.zetterstrom.dev'];
 
@@ -50,7 +49,7 @@ app.get('/standings', cors(corsOptions), (_, res) => {
 
         redisClient.setex(
           standingsRedisKey,
-          standingsCacheLifespan,
+          cacheLifespan,
           JSON.stringify(apiResponseWithTeamInfo),
         );
         return res.json({ source: 'api', data: apiResponseWithTeamInfo });
@@ -78,7 +77,7 @@ app.get('/games', cors(corsOptions), (_, res) => {
 
         redisClient.setex(
           standingsRedisKey,
-          gamesCacheLifespan,
+          cacheLifespan,
           JSON.stringify(apiResponseWithTeamInfo),
         );
         return res.json({ source: 'api', data: apiResponseWithTeamInfo });
