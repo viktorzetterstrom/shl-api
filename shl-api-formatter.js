@@ -25,7 +25,33 @@ const games = apiResponse => apiResponse
     away_team_logo: teamInfo[game.away_team_code].logo,
   }));
 
+const goalies = apiResponse => apiResponse
+  .map(goalie => ({
+    ...goalie,
+    info: {
+      ...goalie.info,
+      team: {
+        ...goalie.info.team,
+        logo: teamInfo[goalie.info.team.id].logo,
+      },
+    },
+  }));
+
+const players = apiResponse => apiResponse
+  .map(player => ({
+    ...player,
+    info: {
+      ...player.info,
+      team: {
+        ...player.info.team,
+        logo: teamInfo[player.info.team.id].logo,
+      },
+    },
+  }));
+
 module.exports = {
   standings,
   games,
+  goalies,
+  players,
 };
