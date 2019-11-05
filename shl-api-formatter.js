@@ -33,6 +33,7 @@ const goalies = apiResponse => apiResponse
       team: {
         ...goalie.info.team,
         logo: teamInfo[goalie.info.team.id].logo,
+        name: teamInfo[goalie.info.team.id].name,
       },
     },
   }));
@@ -45,6 +46,7 @@ const players = apiResponse => apiResponse
       team: {
         ...player.info.team,
         logo: teamInfo[player.info.team.id].logo,
+        name: teamInfo[player.info.team.id].name,
       },
     },
   }));
