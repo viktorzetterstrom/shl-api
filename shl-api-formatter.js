@@ -51,9 +51,40 @@ const players = apiResponse => apiResponse
     },
   }));
 
+const teams = {
+  FHC: [],
+  DIF: [],
+  BIF: [],
+  FBK: [],
+  HV71: [],
+  LHC: [],
+  LHF: [],
+  MIF: [],
+  MIK: [],
+  OHK: [],
+  RBK: [],
+  SAIK: [],
+  TIK: [],
+  VLH: [],
+  LIF: [],
+  IKO: [],
+};
+const winstreaks = apiResponse => apiResponse
+  .filter(game => new Date() > new Date(game.start_date_time))
+  .reduce((games, game) => ({
+    ...games,
+    [game.home_team_code]: game.home_team_result > game.away_team_result
+      ? [...games[game.home_team_code], 1]
+      : [...games[game.home_team_code], 0],
+    [game.away_team_code]: game.away_team_result > game.home_team_result
+      ? [...games[game.away_team_code], 1]
+      : [...games[game.away_team_code], 0],
+  }), teams);
+
 module.exports = {
   standings,
   games,
   goalies,
   players,
+  winstreaks,
 };

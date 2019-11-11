@@ -114,6 +114,27 @@ app.get('/players', cors(corsOptions), (_, res) => {
   });
 });
 
+app.get('/winstreaks', (req, res) => {
+  const winstreaksRedisKey = 'shl:winstreaks';
+
+  return redisClient.get(winstreaksRedisKey, (err, winstreaks) => {
+    if (err) return res.json({ error: err });
+    if (winstreaks) {
+      return res.json({ soure: 'cache', data: JSON.parse(winstreaks) });
+    }
+    return shl.season(2019).games()
+      .then((apiResponse) => {
+        const formatedResponse = formatter.winstreaks(apiResponse);
+        redisClient.setex(
+          winstreaksRedisKey,
+          cacheLifespan,
+          JSON.stringify(formatedResponse),
+        );
+        return res.json({ source: 'api', data: formatedResponse });
+      });
+  });
+});
+
 app.listen(port);
 if (process.env.NODE_ENV !== 'development') {
   const options = {
