@@ -68,12 +68,12 @@ const winstreaks = (apiResponse) => {
       teamWinstreaks[winner] = teamWinstreaks[winner] !== undefined
         ? {
           ...teamWinstreaks[winner],
-          streak: teamWinstreaks[winner].streak + 1,
+          winstreak: teamWinstreaks[winner].winstreak + 1,
         }
         : {
           team: teamInfo[winner].name,
           logo: teamInfo[winner].logo,
-          streak: 1,
+          winstreak: 1,
         };
     }
   });
