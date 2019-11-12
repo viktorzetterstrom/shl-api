@@ -114,7 +114,7 @@ app.get('/players', cors(corsOptions), (_, res) => {
   });
 });
 
-app.get('/winstreaks', (req, res) => {
+app.get('/winstreaks', cors(corsOptions), (req, res) => {
   const winstreaksRedisKey = 'shl:winstreaks';
 
   return redisClient.get(winstreaksRedisKey, (err, winstreaks) => {
