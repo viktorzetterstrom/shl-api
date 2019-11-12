@@ -66,11 +66,18 @@ const winstreaks = (apiResponse) => {
     hasLost.push(loser);
     if (!hasLost.includes(winner)) {
       teamWinstreaks[winner] = teamWinstreaks[winner] !== undefined
-        ? teamWinstreaks[winner] + 1
-        : 1;
+        ? {
+          ...teamWinstreaks[winner],
+          streak: teamWinstreaks[winner].streak + 1,
+        }
+        : {
+          team: teamInfo[winner].name,
+          logo: teamInfo[winner].logo,
+          streak: 1,
+        };
     }
   });
-  return teamWinstreaks;
+  return Object.values(teamWinstreaks).sort((a, b) => b.streak - a.streak);
 };
 
 module.exports = {
