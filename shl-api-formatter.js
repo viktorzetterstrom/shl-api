@@ -73,7 +73,7 @@ const winstreaks = (apiResponse) => {
         : {
           team: teamInfo[winner].name,
           logo: teamInfo[winner].logo,
-          streak: 1,
+          winstreak: 1,
         };
     }
   });
