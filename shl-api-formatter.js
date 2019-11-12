@@ -71,13 +71,13 @@ const winstreaks = (apiResponse) => {
           winstreak: teamWinstreaks[winner].winstreak + 1,
         }
         : {
-          team: teamInfo[winner].name,
+          name: teamInfo[winner].name,
           logo: teamInfo[winner].logo,
           winstreak: 1,
         };
     }
   });
-  return Object.values(teamWinstreaks).sort((a, b) => b.streak - a.streak);
+  return Object.values(teamWinstreaks).sort((a, b) => b.winstreak - a.winstreak);
 };
 
 module.exports = {
