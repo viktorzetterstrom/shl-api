@@ -77,7 +77,7 @@ const winstreaks = (apiResponse) => {
         };
     }
   });
-  return Object.values(teamWinstreaks).sort((a, b) => b.streak - a.streak);
+  return Object.values(teamWinstreaks).sort((a, b) => b.winstreak - a.winstreak);
 };
 
 module.exports = {
