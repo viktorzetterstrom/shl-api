@@ -51,35 +51,27 @@ const players = apiResponse => apiResponse
     },
   }));
 
-const teams = {
-  FHC: [],
-  DIF: [],
-  BIF: [],
-  FBK: [],
-  HV71: [],
-  LHC: [],
-  LHF: [],
-  MIF: [],
-  MIK: [],
-  OHK: [],
-  RBK: [],
-  SAIK: [],
-  TIK: [],
-  VLH: [],
-  LIF: [],
-  IKO: [],
+const winstreaks = (apiResponse) => {
+  const playedGames = apiResponse.filter(game => new Date() > new Date(game.start_date_time));
+  const teamWinstreaks = {};
+  const hasLost = [];
+  playedGames.forEach((game) => {
+    const winner = game.home_team_result > game.away_team_result
+      ? game.home_team_code
+      : game.away_team_code;
+    const loser = game.home_team_result < game.away_team_result
+      ? game.home_team_code
+      : game.away_team_code;
+
+    hasLost.push(loser);
+    if (!hasLost.includes(winner)) {
+      teamWinstreaks[winner] = teamWinstreaks[winner] !== undefined
+        ? teamWinstreaks[winner] + 1
+        : 1;
+    }
+  });
+  return teamWinstreaks;
 };
-const winstreaks = apiResponse => apiResponse
-  .filter(game => new Date() > new Date(game.start_date_time))
-  .reduce((games, game) => ({
-    ...games,
-    [game.home_team_code]: game.home_team_result > game.away_team_result
-      ? [...games[game.home_team_code], 1]
-      : [...games[game.home_team_code], 0],
-    [game.away_team_code]: game.away_team_result > game.home_team_result
-      ? [...games[game.away_team_code], 1]
-      : [...games[game.away_team_code], 0],
-  }), teams);
 
 module.exports = {
   standings,
