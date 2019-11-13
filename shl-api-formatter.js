@@ -56,7 +56,7 @@ const winstreaks = (apiResponse) => {
   const teamWinstreaks = { ...teamInfo };
   Object.keys(teamInfo).forEach((teamCode) => {
     teamWinstreaks[teamCode].streaks = {
-      all: 0,
+      both: 0,
       home: 0,
       away: 0,
     };
@@ -67,7 +67,6 @@ const winstreaks = (apiResponse) => {
   const hasLostAway = {};
 
   playedGames.forEach((game) => {
-    debugger;
     const homeCode = game.home_team_code;
     const awayCode = game.away_team_code;
     const homeResult = game.home_team_result;
@@ -78,9 +77,9 @@ const winstreaks = (apiResponse) => {
 
       teamWinstreaks[homeCode].streaks = {
         ...teamWinstreaks[homeCode].streaks,
-        all: !hasLostHome[homeCode] && !hasLostAway[homeCode]
-          ? teamWinstreaks[homeCode].streaks.all += 1
-          : teamWinstreaks[homeCode].streaks.all,
+        both: !hasLostHome[homeCode] && !hasLostAway[homeCode]
+          ? teamWinstreaks[homeCode].streaks.both += 1
+          : teamWinstreaks[homeCode].streaks.both,
         home: !hasLostHome[homeCode]
           ? teamWinstreaks[homeCode].streaks.home += 1
           : teamWinstreaks[homeCode].streaks.home,
@@ -90,16 +89,16 @@ const winstreaks = (apiResponse) => {
 
       teamWinstreaks[awayCode].streaks = {
         ...teamWinstreaks[awayCode].streaks,
-        all: !hasLostHome[awayCode] && !hasLostAway[awayCode]
-          ? teamWinstreaks[awayCode].streaks.all += 1
-          : teamWinstreaks[awayCode].streaks.all,
+        both: !hasLostHome[awayCode] && !hasLostAway[awayCode]
+          ? teamWinstreaks[awayCode].streaks.both += 1
+          : teamWinstreaks[awayCode].streaks.both,
         away: !hasLostAway[awayCode]
           ? teamWinstreaks[awayCode].streaks.away += 1
           : teamWinstreaks[awayCode].streaks.away,
       };
     }
   });
-  return Object.values(teamWinstreaks).sort((a, b) => b.streaks.all - a.streaks.all);
+  return Object.values(teamWinstreaks).sort((a, b) => b.streaks.both - a.streaks.both);
 };
 
 module.exports = {
