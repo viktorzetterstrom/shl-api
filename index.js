@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const redis = require('redis');
 const formatter = require('./shl-api-formatter');
 const { ShlConnection } = require('./shl-connection');
@@ -12,24 +11,12 @@ const clientSecret = process.env.CLIENT_SECRET;
 const port = process.env.PORT;
 const cacheLifespan = process.env.CACHE_LIFESPAN;
 
-const whitelist = ['https://shl.zetterstrom.dev'];
-
-const corsOptions = {
-  origin: (origin, cb) => {
-    if (whitelist.includes(origin) || process.env.NODE_ENV === 'development') {
-      cb(null, true);
-    } else {
-      cb(new Error('Not allowed by CORS'));
-    }
-  },
-};
-
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
 
 app.use(require('helmet')());
 
-app.get('/standings', cors(corsOptions), (_, res) => {
+app.get('/standings', (_, res) => {
   const standingsRedisKey = 'shl:standings';
 
   return redisClient.get(standingsRedisKey, (err, standings) => {
@@ -49,7 +36,7 @@ app.get('/standings', cors(corsOptions), (_, res) => {
   });
 });
 
-app.get('/games', cors(corsOptions), (_, res) => {
+app.get('/games', (_, res) => {
   const gamesRedisKey = 'shl:games';
 
   return redisClient.get(gamesRedisKey, (err, games) => {
@@ -70,7 +57,7 @@ app.get('/games', cors(corsOptions), (_, res) => {
   });
 });
 
-app.get('/goalies', cors(corsOptions), (_, res) => {
+app.get('/goalies', (_, res) => {
   const goaliesRedisKey = 'shl:goalies';
 
   return redisClient.get(goaliesRedisKey, (err, standings) => {
@@ -91,7 +78,7 @@ app.get('/goalies', cors(corsOptions), (_, res) => {
   });
 });
 
-app.get('/players', cors(corsOptions), (_, res) => {
+app.get('/players', (_, res) => {
   const playersRedisKey = 'shl:players';
 
   return redisClient.get(playersRedisKey, (err, players) => {
@@ -112,7 +99,7 @@ app.get('/players', cors(corsOptions), (_, res) => {
   });
 });
 
-app.get('/winstreaks', cors(corsOptions), (req, res) => {
+app.get('/winstreaks', (req, res) => {
   const winstreaksRedisKey = 'shl:winstreaks';
 
   return redisClient.get(winstreaksRedisKey, (err, winstreaks) => {
