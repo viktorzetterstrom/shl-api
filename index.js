@@ -13,8 +13,8 @@ const cacheLifespan = process.env.CACHE_LIFESPAN;
 
 const app = express();
 const shl = new ShlClient(new ShlConnection(clientId, clientSecret));
-
 app.use(require('helmet')());
+app.use(require('cors')());
 
 app.get('/standings', (_, res) => {
   const standingsRedisKey = 'shl:standings';
