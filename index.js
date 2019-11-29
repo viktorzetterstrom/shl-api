@@ -1,8 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const https = require('https');
 const cors = require('cors');
-const fs = require('fs');
 const redis = require('redis');
 const formatter = require('./shl-api-formatter');
 const { ShlConnection } = require('./shl-connection');
@@ -136,10 +134,3 @@ app.get('/winstreaks', cors(corsOptions), (req, res) => {
 });
 
 app.listen(port);
-if (process.env.NODE_ENV !== 'development') {
-  const options = {
-    cert: fs.readFileSync('./sslcert/fullchain.pem'),
-    key: fs.readFileSync('./sslcert/privkey.pem'),
-  };
-  https.createServer(options, app).listen(8443);
-}
