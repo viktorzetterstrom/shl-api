@@ -61,7 +61,6 @@ const winstreaks = (apiResponse) => {
       away: 0,
     };
   });
-  console.dir(teamWinstreaks);
 
   const hasLostHome = {};
   const hasLostAway = {};
